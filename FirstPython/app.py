@@ -13,21 +13,19 @@ def index():
 @app.route("/hello")
 def hello():
    ## 1 / 0 
-    return "hello from my web app. :)"
+    return "hello from my web app."
 
 
 @app.get("/home")
 def home_page():
-    with open ("home.hrml") as f:
-        html = f.read()
-    return html
+return render_template("home.html")
+
 
 
 @app.get("/showform")
 def display_form():
-    with open("form.html") as f:
-        html = f.read()
-    return html
+return render_template("form.html")
+
 
 @app.post("/processform")
 def process_form():
