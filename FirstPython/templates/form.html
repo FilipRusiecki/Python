@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title> Details </title>
-</head>
-
-	<body>
+{% extends "base.html"%}
+{%block body %}
 		<h2> Give me all your details </h2>
 		<p> welldone you compleated the ultimate test <p>
 		<form action="/processform" method="post">
@@ -13,6 +8,4 @@
 		<input type="submit" value="Do It!"
 		
 		</form>	
-	</body>
-
-</html>
+{%endblock %}
