@@ -6,26 +6,26 @@ app = Flask(__name__)
 
 
 @app.route("/")  ##register the / URL with the Flask web Server
-def index():
-    return datetime.datetime.now().ctime()  ##the HTTP response
+##def index():
+##    return datetime.datetime.now().ctime()  ##the HTTP response
 
 
-@app.route("/hello")
-def hello():
+##@app.route("/hello")
+##def hello():
    ## 1 / 0 
-    return "hello from my web app."
+##    return "hello from my web app."
                         
 
 @app.get("/home")
 def home_page():
-return render_template("home.html"
+    return render_template("home.html",
                         the_title="Welcome")
 
 
 
 @app.get("/showform")
 def display_form():
-return render_template("form.html"
+    return render_template("form.html",
                             the_title="give details")
 
 
