@@ -1,0 +1,137 @@
+@charset "utf-8";
+body {
+	background-color: #34ebab;
+	overflow-x: hidden;
+}
+/* Welcome to Filip's Page*/
+#title{
+	text-align:center;
+	font-family: cosmicblaster;
+	letter-spacing: 2px;
+	color:white;
+	text-shadow: 2px 2px 5px black;
+}
+/* infobox break1*/
+#titleBreak{
+	width:90%;
+	height:3px;
+	background-color:black;
+	border-color:black;
+	opacity:0.7;
+}
+
+
+/*main box on home page*/
+.infobox{
+	position: absolute;
+    top: 100px;
+	width:1470px;
+	height:800px;
+    left: 200px;
+	background-color: rgba(166,166,166,0.6);
+	border: solid 5px;
+	border-color:rgba(0,0,0,0.8);
+	font-family: cosmicblaster;
+	border-radius: 20px;
+}
+
+/* black box in first div */
+.boxInInfoBox{
+	position: absolute;
+	width:550px;
+	height:600px;
+	left:40px;
+	top:140px;
+	background-color:black;
+	opacity:0.8;
+	border-radius:15px;
+}
+
+/* box where the links are */
+.boxForLinks{
+	position: absolute;
+	width:200px;
+	height:600px;
+	left:1220px;
+	top:140px;
+	background-color:black;
+	opacity:0.8;
+	border-radius:15px;
+
+}
+
+
+/* nav Tab1 */
+.Tab1{
+	position:absolute;
+	margin-left:30px;
+	color:white;
+	text-shadow: 2px 2px 5px black;
+	letter-spacing: 2px;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* infobox sidebar1*/
+#sidebar{
+	position:absolute;
+	width:3px;
+	height:600px;
+	top:125px;
+	left:1200px;
+	background-color:black;
+	border-color:black;
+	opacity:0.7;
+}
+/* infobox sidebar2*/
+#sidebar2{
+	position:absolute;
+	width:3px;
+	height:600px;
+	top:125px;
+	left:1435px;
+	background-color:black;
+	border-color:black;
+	opacity:0.7;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a:hover {
+	font-size: 12.5px;
+}
+
+
+
+
+
+
+
+
+
