@@ -25,7 +25,21 @@ def personal_page():
 def cv_page():
     return render_template("cv.html",
                             the_title = "CV")
-
+                            
+@app.route("/games")
+def games_page():
+    return render_template("games.html",
+                            the_title = "games")
+                            
+@app.route("/interests")
+def interests_page():
+    return render_template("interests.html",
+                            the_title = "interests")
+                            
+@app.route("/warning")
+def warning_page():
+    return render_template("warning.html",
+                            the_title = "warning")
 
 #@app.post("/processform")
 #def process_form():
