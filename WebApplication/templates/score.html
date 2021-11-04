@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2> {{ title }} </h2>
+<p> hewo </p>
+<p> <strong> {{ score }} </strong> </p>
+
+
+<form action="/savescore" method="post">
+	<table>
+		<tr>
+			<td>
+			tell us your name:
+			</td>
+			<td>
+			<input type="text" name="player">
+			<!--<input type="hidden" value = {{ score }} name="score"> -->
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+			<td>
+				<input type="submit" name="Record Score">
+			</td>
+		</tr>
+	</table>
+</form>
+
+{% endblock %}
