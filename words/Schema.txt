@@ -4,7 +4,15 @@ so I started of by creating a database in mariaDB and grated the user all the pe
 
 #grant all privileges on worddb.* to 'wordUser' identified by 'wordpasswd';
 
-then i went to create a table 
+then i went to create a table in mysql
+
+#-u wordUser -p worddb
+
+
+passowrd:
+#wordpassswd
+
+
 
 #create table wordtable(
 #position int not null,
@@ -14,6 +22,7 @@ then i went to create a table
 #sourceword varchar(128) not null,
 #matches varchar(128) not null);
 
+#describe wordtable;
 
 and then another table for loging data.
 
@@ -25,6 +34,8 @@ and then another table for loging data.
 #browser varchar(500) not null,
 #sourceword varchar(128) not null,
 #matches varchar(128) not null);
+
+#describe wordlog;
 
 
 
