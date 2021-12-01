@@ -27,7 +27,7 @@ def save_the_data(name, score):
            
 def process_data(the_score, the_player):
     with DBcm.UseDatabase(config) as db:
-    SQL = """
+        SQL = """
     select name, score
     from board
     order by score desc
