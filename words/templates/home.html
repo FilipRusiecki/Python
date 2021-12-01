@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{%block body %}
+
+		<h2> Word Game</h2>
+		<h1>How to play... </h1>
+		<p>You are provided with a word of eight letters or more which we'll call the "sourceword".<br>
+
+		You are to think up seven 4-or-more letter words made up from the letters contained within the sourceword, ensuring that:<br>
+		1.Each word is only made up from the letters contained within the sourceword.<br>
+		2.You haven't reused any letter more times that it appears in the sourceword.<br>
+		3.Each word exists within the dictionary (i.e., it's a “real” word).<br>
+		4.The words all have four letters or more.<br>
+		5.There are no duplicate words.<br>
+		6.None of the seven words is the source word.<br><br></p>
+		<h3>Note: case is NOT significiant (i.e., This, THIS, and this are the *same* word).</h3>
+
+<input type="button" value="click" submit="game.html">
+<a href="/game"> play </a> <br>
+<a href="/top10"> top 10 </a> <br>
+<a href="/log"> log </a>
+	
+{%endblock %}

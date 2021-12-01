@@ -7,7 +7,7 @@ from data_utils import save_the_data, process_data
 import random
 
 
-
+@app.get("/")
 @app.get("/score")
 def display_score():
    score=random.randint(1,100)

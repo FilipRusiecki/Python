@@ -1,0 +1,30 @@
+so I started of by creating a database in mariaDB and grated the user all the permissions
+
+#create database worddb;
+
+#grant all privileges on worddb.* to 'wordUser' identified by 'wordpasswd';
+
+then i went to create a table 
+
+#create table wordtable(
+#position int not null,
+#id varchar(128) not null,
+#time varchar(128) not null,
+#name varchar(128) not null,
+#sourceword varchar(128) not null,
+#matches varchar(128) not null);
+
+
+and then another table for loging data.
+
+
+#create table wordlog(
+#time timestamp not null default current_date(),,
+#id varchar(128) not null,
+#ip varchar(32) not null,
+#browser varchar(500) not null,
+#sourceword varchar(128) not null,
+#matches varchar(128) not null);
+
+
+

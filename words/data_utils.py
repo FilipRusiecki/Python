@@ -1,11 +1,11 @@
 import DBcm
-SAVE_FILE = "data/leaders.txt"
+
 #dont forget to install dbcm on server client
 config ={
     'host' : '1270.0.1',    #link to the site
-    'database': 'leaderboardDB',    #change the board 
-    'user': 'leaderuser',  #change this to the online data base
-    'password': 'leaderpasswd', #change password
+    'database': 'worddb',    #change the board 
+    'user': 'wordUser',  #change this to the online data base
+    'password': 'wordpasswd', #change password
 }
 
 

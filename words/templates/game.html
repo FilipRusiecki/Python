@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block body %}
+<h2> Word Game</h2>
+<form action="/results" method="post">
+		WORDS: <input type="text" name="matches"><br />
+		<input type="submit" value="Do It!">
+		</form>	
+{% endblock %}
