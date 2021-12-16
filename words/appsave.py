@@ -1,10 +1,9 @@
 from flask import Flask, request, render_template
 from data_utils import save_the_data, process_data
-import datetime
 import random                      #HERE WE IMPORT THE RANDOM
-
 from collections import Counter    #IMPORTING THE COUNTER
 from datetime import datetime      #WE IMPORT THIS TO CHECK FOR TIME  
+
 
 app = Flask(__name__)
 
@@ -22,6 +21,7 @@ app = Flask(__name__)
 
 @app.get("/home")
 def home_page():
+
     return render_template("home.html",
                         the_title="")
 
@@ -39,8 +39,29 @@ def log_page():
 
 @app.get("/game")
 def display_form():
+
+    with open('smallWords.txt',"w") as sf:
+        with open("bigWords.txt","w") as bf:
+            with open("words.txt") as wf:
+                with open("endWords.txt","w") as ff:
+                    for w in wf:
+                        if "'s" not in w:
+                            print(w.strip().lower(), file = ff)    
+                        if len(w) > 7:
+                            print(w.strip().lower(), file = bf)
+                        else: 
+                            print(w.strip().lower(),file = sf)
+
+                with open ("bigWords.txt") as bf:
+                    myList = bf.read()
+                myList = myList.split("\n")
+                index = random.randrange(len(myList))
+                sourceword = myList[index]
+
+
+
     return render_template("game.html",
-                            the_title="play game")
+                            the_title="play game", source_word = sourceword)
 
 @app.post("/results")
 def results_page():

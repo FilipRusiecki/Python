@@ -59,12 +59,12 @@ with open ("endWord.txt") as fullList:
     
 @app.route("/processwords")
 def score_page():
-    with open ("bigWords.txt") as bigWordsList:
-        givenWords = bigWordsList.read()
-    givenWord = (random.choice(givenWords.split()))
+  #  with open ("bigWords.txt") as bigWordsList:
+   #     givenWords = bigWordsList.read()
+   # givenWord = (random.choice(givenWords.split()))
 
 
-    playerWords = request.args.get("words.txt","a").split() #    playerWords = request.args.getlist(open("words.txt"))#.split()
+    playerWords = request.args.get("words.txt").split() #    playerWords = request.args.getlist(open("words.txt"))#.split()
     #word_list = playerWords.split()
     duplicateCounter = 0
     wordCounter = 0
