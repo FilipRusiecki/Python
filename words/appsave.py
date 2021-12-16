@@ -47,16 +47,15 @@ def display_form():
                     for w in wf:
                         if "'s" not in w:
                             print(w.strip().lower(), file = ff)    
-                        if len(w) > 7:
-                            print(w.strip().lower(), file = bf)
-                        else: 
-                            print(w.strip().lower(),file = sf)
-
-                with open ("bigWords.txt") as bf:
-                    myList = bf.read()
-                myList = myList.split("\n")
-                index = random.randrange(len(myList))
-                sourceword = myList[index]
+                            if len(w) > 7:
+                                print(w.strip().lower(), file = bf)
+                            else: 
+                                print(w.strip().lower(),file = sf)
+    with open ("bigWords.txt") as bf:
+        myList = bf.read()
+    myList = myList.split("\n")
+    index = random.randrange(len(myList))
+    sourceword = myList[index]
 
 
 
