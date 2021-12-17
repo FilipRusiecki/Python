@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session
 import random
-from datetime import datetime
+import datetime
 from collections import Counter
 import DBcm
 
@@ -29,8 +29,9 @@ def display_rules():
 @app.route("/game")
 def play_game():
 
-
-#starttime = time.time()
+    starttime = datetime.datetime.now()      #this doesnt work properly as it only execuses for a split second when game coore is random
+    session["start_time"] = starttime
+    #starttime = time.time()
     #starttime = datetime.now()
     #session ["start_time"] = starttime
   
@@ -85,7 +86,12 @@ def the_results():
 
 @app.get("/top10")
 def get_top_10():
-    return render_template("top10.html")
+
+
+    myScores = getMyScors()
+    t_time = getTime()  
+
+    return render_template("top10.html", myTime = t_time, mymyScores = myScores)
 
 
 def game_core(srcwrd):
@@ -99,8 +105,9 @@ def game_core(srcwrd):
     wordEqualToSource = False
     name = request.args.get("the_name")
     #ip = socket.gethostname()
-    starttime = datetime.now()      #this doesnt work properly as it only execuses for a split second when game coore is random
-                                    #tried using sessions for the time but sql was throwing errors for time 
+    
+
+    #tried using sessions for the time but sql was throwing errors for time 
     for x in range(7):
         guessWord = request.args.get("playerinput").split(" ")
         print(len(guessWord[x]))
@@ -169,9 +176,16 @@ def game_core(srcwrd):
    # print("You finished in" ,resulttime)
    
    
-    endtime = datetime.now()
-    resulttime = endtime - starttime
-    resulttime = str(resulttime)  
+    endtime = datetime.datetime.now()
+    session["end_time"] = endtime
+    
+    callStartTime = session["start_time"]
+    callEndTime = session["end_time"]
+
+    
+    resulttime = callEndTime.timestamp() - callStartTime.timestamp()
+    resulttime = round(resulttime,2)
+    #resulttime = str(resulttime)  
     
     print("You finished in" ,resulttime)
    
@@ -291,6 +305,33 @@ def getmyLogs():
         SQL = """
             select *
             from wordlog
+            order by time desc
+        """
+        db.execute(SQL)
+        logs = db.fetchall()
+    
+    return logs
+    
+    
+    
+    
+def getMyScors():
+    with DBcm.UseDatabase(config) as db:
+        SQL = """
+            select id, name, time, sourceword, matches
+            from wordtable
+            order by time desc
+        """
+        db.execute(SQL)
+        logs = db.fetchall()
+    
+    return logs
+    
+def getTime():
+    with DBcm.UseDatabase(config) as db:
+        SQL = """
+            select time
+            from wordtable
             order by time desc
         """
         db.execute(SQL)
