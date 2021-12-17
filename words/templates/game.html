@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% block body %}
-<h2> Word Game</h2>
+<div class="WordGame">
+<h2> Welcome to the simple word game :) </h2>
 
-<p>
-	Word {{source_word}} <br>
-
+<p class="gameText">
+	The word is: <strong>{{source_word}}</strong>
 </p>
 
 
 
+
 <form action="/results" method="route">
+<p>Name: </p>
 <input type="text" name="the_name"><br>
-<input type="text" name="playerinput"><br>
+<p> Input Words</p>
+<input type="text" name="playerinput"><br><br>
 <input type="submit" value="Submit Answer">
 </form>
+</div>
 {% endblock %}

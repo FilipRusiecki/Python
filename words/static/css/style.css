@@ -1,7 +1,31 @@
 @charset "utf-8";
 body {
-	background-color: #ffffff;
+	background-color: #77CEBC;
 	overflow-x: hidden;
-	overflow-y: hidden;
+	
 }
 
+.para1{
+	position:absolute;
+	left:35%;
+	top:5%;
+}
+
+
+.buttonsHome{
+	position:absolute;
+	left:34%;
+	top:110%;
+}
+
+.WordGame{
+	position:absolute;
+	left:38%;
+	top:2%;
+}
+
+.gameText{
+	font-size:20px;
+	
+	
+}

@@ -1,6 +1,6 @@
 {% extends "base.html"%}
 {%block body %}
-
+<div class="para1"
 		<h2> Word Game</h2>
 		<h1>How to play... </h1>
 		<p>You are provided with a word of eight letters or more which we'll call the "sourceword".<br>
@@ -13,10 +13,19 @@
 		5.There are no duplicate words.<br>
 		6.None of the seven words is the source word.<br><br></p>
 		<h3>Note: case is NOT significiant (i.e., This, THIS, and this are the *same* word).</h3>
-
-<input type="button" value="click" submit="game.html">
-<a href="/game"> play </a> <br>
-<a href="/top10"> top 10 </a> <br>
-<a href="/log"> log </a>
+	<div class="buttonsHome">
+		<form action="/game" method="route">
+		<input type="submit" value="goPlay">
+		</form>
+		<br>
+		<form action="/top10" method="get">
+		<input type="submit" value="goTop10">
+		</form>
+		<br>
+		<form action="/log" method="route">
+		<input type="submit" value="goLog">
+		</form>
+	</div>
+</div>
 	
 {%endblock %}
