@@ -1,89 +1,145 @@
-from flask import Flask, request, render_template
-from data_utils import save_the_data, process_data
-import random                      #HERE WE IMPORT THE RANDOM
-from collections import Counter    #IMPORTING THE COUNTER
-from datetime import datetime      #WE IMPORT THIS TO CHECK FOR TIME  
+from flask import Flask, render_template, request, session
+import random
+from datetime import datetime
+from collections import Counter
+import DBcm
 
+config = {
+        'host' : '127.0.0.1',    #link to the site
+        'database': 'worddb',    #change the board 
+        'user': 'wordUser',  #change this to the online data base
+        'password': 'wordpasswd', #change password
+}
+##from data_utils import save_the_data, process_data
 
 app = Flask(__name__)
 
+srcwrd = ""
 
-##@app.route("/")  ##register the / URL with the Flask web Server
-##def index():
-##    return datetime.datetime.now().ctime()  ##the HTTP response
-
-
-##@app.route("/hello")
-##def hello():
-   ## 1 / 0 
-##    return "hello from my web app."
-                        
-
+@app.get("/")
 @app.get("/home")
-def home_page():
+def display_rules():
+    return render_template("home.html", title="The 4 letter word game thing")
 
-    return render_template("home.html",
-                        the_title="")
 
+
+@app.route("/game")
+def play_game():
+
+
+    starttime = time.time()
+    #starttime = datetime.now()
+    session ["start_time"] = starttime
+  
+    setup_txt_file()                                # Sets up the txt files
+    sourceword = get_source_word()                  # Finds the sourceword from the big.txt file
+   # global srcwrd
+    session["source_word"] = sourceword
+    #srcwrd = sourceword
+    
+    return render_template("game.html", title="Start thinking!", source_word = sourceword)
+
+
+
+
+@app.route("/results")
+def the_results():
+    #guess_word_input()
+    srcwrd = session["source_word"]
+    
+    starttime = session["start_time"]
+    endtime = datetime.now()
+    resulttime = endtime - starttime
+   # resulttime = str(resulttime)  
+    
+    #print("You finished in" ,resulttime)
+
+    session ["result_time"] = resulttime
+    game_core(srcwrd)
+
+    return render_template("results.html", title="Victory")
+
+@app.post("/fail")
+def the_failure():
+    return render_template("fail.html", title="You Failed!")
 
 @app.get("/top10")
-def top10_page():
-    return render_template("top10.html",
-                        the_title="")
+def get_top_10():
+    return render_template("top10.html", title="TOP 10")
 
 
-@app.get("/log")
-def log_page():
-    return render_template("log.html",
-                        the_title="")
-
-@app.get("/game")
-def display_form():
-
-    setup_txt_file()
-    sourceword = get_source_word()
-
-
-    game_core(sourceword)
-
-    return render_template("game.html",
-                            the_title="play game", source_word = sourceword)
+@app.get("/score")
+def display_score():
+    score = random.randint(1, 100)
+    session["current_score"] = score  # sets the session value for this browser.
+    return render_template(
+        "score.html",
+        title="Here's your winning score",
+        score=score,  # =random.randint(1, 100)
+    )
 
 
+@app.post("/savescore")
+def save_the_score():
+    """Get, Save, Process and Display the score data."""
+    the_player = request.form["player"]  # From the HTML form.
+    the_score = session[
+        "current_score"
+    ]  # Gets the session value for the current browser.
 
+    save_the_data(the_player, the_score)
+    (where, how_many, ordered) = process_data(the_score, the_player)
 
+    return render_template(
+        "results.html",
+        title="Here is how you did",
+        name=the_player,
+        score=the_score,
+        position=where,
+        length=how_many,
+        topten=ordered,
+    )
 
-def game_core(sourceword):
-    mainWord = Counter(sourceword)
-    guesswordList = []
+def game_core(srcwrd):
+    print(srcwrd)
+    mainWord = Counter(srcwrd)   
+    #guesswordList = []
     wordWrong = False
     wordRight = False
     wordMistake = False
     wordShort = False
     wordEqualToSource = False
+    name = request.args.get("the_name")
+    #ip = socket.gethostname()
+    
+    for x in range(7):
+        guessWord = request.args.get("playerinput").split(" ")
+        print(len(guessWord[x]))
 
 
-    starttime = datetime.now()
-    for guesses in range(7):                           
-        guessWord = input("Enter Words:")              # Creates a string that will store the guessWord
-        guesswordList.append(guessWord)                # Adds to the end of the list which contains all the guess words
-        guess = Counter(guessWord)                     # Creates a counter which counts all the letters to check against the source word
-        guess = guess - mainWord                       # Checks if all the letters inside the source word, match the letters inside the guess word
-        mainWord = Counter(sourceword)                 # Reassigns the source word to main word, so you can check the next word
+    
+    for guesses in range(7):                            
+        guessWord = request.args.get("playerinput").split(" ")           # Creates a string that will store the guessWord
+        print(guessWord)
+        singleGuessWord = guessWord[guesses]
+        guess = Counter(singleGuessWord)                                # Creates a counter which counts all the letters to check against the source word
+        guess = guess - mainWord                                         # Checks if all the letters inside the source word, match the letters inside the guess word
+        mainWord = Counter(srcwrd)                                   # Reassigns the source word to main word, so you can check the next word
         
-        processWord = request.args.get("playerInput").split()
-        if sourceword == guessWord:
+        if srcwrd == singleGuessWord:
             wordEqualToSource = True
         
-        if len(guessWord) >= 4:
+        print(guess)
+        print(type(singleGuessWord))
+        
+        if len(singleGuessWord) >= 4:
             with open("endWords.txt", "r") as sf:
                 for line in sf:
                     stripped_line = line.strip()
-                    if stripped_line == guessWord:
+                    if stripped_line == singleGuessWord:
                         wordRight = True
                         break
                     else:
-                        #print("One or more of your words are not correct")
                         wordRight = False
 
             if wordRight == False:
@@ -95,32 +151,45 @@ def game_core(sourceword):
                 if bool(guess) == True: # Checks if the guess word is empty, and if it isn't, the letters don't match
                     print("Your letters don't match")
                     wordWrong = True ## this will currently break out of the loop, if the word does not match
-                    break;
                 if bool(guess) == False: # Checks if the guess word is empty, and if it is, then the letters match
                     print("You guessed correctly")
         else:
             wordShort = True
         
             
-    endtime = datetime.now()
+    
 
-    resulttime = endtime - starttime
-    resulttime = str(resulttime)
-    print("You finished in" ,resulttime)
 
-    duplicates = checkDupes(guesswordList)
+
+    duplicates = checkDupes(guessWord)
 
     if duplicates == True:
         print("You have a duplicate in your words")
     if wordMistake == True:
-       # print("One or more of your words are not correct")
-        if wordShort == True:
-            print("One or more words are less than 4 letters")
+        print("One or more of your words are not correct")
+    if wordShort == True:
+        print("One or more words are less than 4 letters")
     if wordEqualToSource == True:
         print("One or more words are equal to the sourceword")
-
-
-
+    
+ 
+    #starttime = session["start_time"]
+    resulttime = session["result_time"]
+    #resulttime = str(resulttime)  
+    
+   # print("You finished in" ,resulttime)
+    guessWord = ' '.join(guessWord)
+    print(guessWord)
+    
+    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    print(ip)
+    
+    browser = request.headers.get('User-Agent')
+    
+    push_the_data(resulttime, name, srcwrd, guessWord)
+    push_the_log(ip, browser, srcwrd, guessWord)
+    
+    
 def get_source_word():
     with open("bigWords.txt") as bf:
         myList = bf.read()
@@ -150,25 +219,41 @@ def checkDupes(guesswordList):
     else:
         return True
 
+
+
+
+
+def push_the_data(resulttime,name,srcwrd,guessWord):
+    SQL = """
+            insert into wordtable
+            (time, name, sourceword, matches)
+            value
+            (%s, %s, %s, %s)
     
+    """
     
-def checkDupes(guesswordList):
-    if len(guesswordList) == len(set(guesswordList)):
-        duplicates = False
-    else:
-        duplicates = True
+    with DBcm.UseDatabase(config) as db:
+        db.execute(SQL, (resulttime, name, srcwrd, guessWord))
+        
+        
+        
+        
+        
+def push_the_log(ip,browser,srcwrd,guessWord):
+    SQL = """
+            insert into wordlog
+            (ip, browser, sourceword, matches)
+            value
+            (%s, %s, %s, %s)
+    
+    """
+    
+    with DBcm.UseDatabase(config) as db:
+        db.execute(SQL, (ip, browser, srcwrd, guessWord))  
+
+ 
+app.secret_key = "c1v2b34nb4n5m67c5v6bnjfyr384m96mi8un7b"
 
 
-
-
-@app.post("/results")
-def results_page():
-    return render_template("results.html",
-                        the_title="")
-
-@app.get("/loose")
-def loose_page():
-    return render_template("loose.html",
-                        the_title="")
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == "__main__":  # True if executed directly, False if imported.
+    app.run(debug=True, host="0.0.0.0")

@@ -3,15 +3,15 @@
 <h2> Word Game</h2>
 
 <p>
-	Word {{source_word}}
+	Word {{source_word}} <br>
+
 </p>
 
 
 
-
-<form action="/results" method="post">
-<input type="text" name="playerInput"><br>
+<form action="/results" method="route">
+<input type="text" name="the_name"><br>
+<input type="text" name="playerinput"><br>
 <input type="submit" value="Submit Answer">
-	
 </form>
 {% endblock %}
